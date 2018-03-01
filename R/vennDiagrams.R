@@ -6,6 +6,7 @@
 #' @param title Title of Diagram
 #' @author Felipe Flores
 #' @return Sorted vector of elements that are different
+#' @export
 vennDiagrams<-function(listOfCohorts,fileName=NULL,title=NULL){
   vennPlot <- VennDiagram::venn.diagram(listOfCohorts, filename = fileName, height = 10,
                                         width = 10, units = 'in', resolution = 300, fill = c('blue', 'red'),
@@ -13,4 +14,5 @@ vennDiagrams<-function(listOfCohorts,fileName=NULL,title=NULL){
                                         fontfamily='arial',cat.fontface = 'bold', cat.pos = c(180,180), cat.dist = c(0.02, 0.02),
                                         main = title, main.cex = 2, main.pos = c(0.5,1.05), main.fontface = 'bold')
   return(vennPlot)
+
 }

@@ -9,7 +9,7 @@ gaussianMixtureModel(expressionMatrix, genesOfInterest, k)
 \arguments{
 \item{expressionMatrix}{Numeric Matrix with genes as rows and samples as columns}
 
-\item{genesOfInterest}{Character vector listing the genes you're interested in looking at}
+\item{genesOfInterest}{Character vector listing the genes you're interested in looking atdep}
 
 \item{k}{Number of Gaussians to be used. This mixture model uses as many distributions as specified}
 }

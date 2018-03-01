@@ -5,6 +5,7 @@
 #' @param y Element 2
 #' @author Felipe Flores
 #' @return Sorted vector of elements that are different
+#' @export
 outersect <- function(x,y) {
   sort(c(setdiff(x, y),
          setdiff(y, x)))
