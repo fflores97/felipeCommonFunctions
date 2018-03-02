@@ -6,7 +6,8 @@
 \usage{
 geneExpressionHeatmap(expressionMatrix, genesOfInterest, samples,
   annotationDataFrame, clusterColumns = T, clusterRows = T, fontSize,
-  kMeans = 1, title = character(0), ...)
+  kMeans = 1, title = character(0), annotationArguments = NULL, filename,
+  ...)
 }
 \arguments{
 \item{expressionMatrix}{Matrix with genes as rows and samples as columns}
@@ -22,6 +23,8 @@ geneExpressionHeatmap(expressionMatrix, genesOfInterest, samples,
 \item{kMeans}{(optional) Number of k-means used to cluster rows}
 
 \item{title}{(optional) Heatmap Title}
+
+\item{annotationArgumnets}{(optional) List with further annotation parameters if needed}
 }
 \value{
 hm, a heatmap object
