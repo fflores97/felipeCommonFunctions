@@ -16,14 +16,16 @@ tSNE_multipleParameters<-function(matrix, perplexities,thetas,iterations,cluster
   for(ii in 1:length(tsneParameters[[1]])){
     for(j in 1:length(tsneParameters[[2]])){
       rtsne_out <- Rtsne::Rtsne(t(matrix),dims=2,max_iter = iterations,pca = T,perplexity = tsneParameters[[1]][ii],theta=tsneParameters[[2]][j])
-      tsneOriginal<-as.data.frame(rtsne_out$Y)
-      colnames(tsneOriginal)<-c("tSNE1","tSNE2")
-      rownames(tsneOriginal)<-colnames(reducedSet)
-      tsneOriginal<-tsneOriginal[sort(rownames(tsneOriginal)),,drop=F]
+      tsneOriginal<-as_tibble(rtsne_out$Y) %>%
+        rename("tSNE1"=!!names(.[1]),"tSNE2"=!!names(.[2])) %>%
+        mutate("d"=colnames(matrix))
       if(missing(clusterDF)){
         tsnePlot<- ggplot(tsneOriginal, aes(x=tSNE1, y=tSNE2))
-      } else{
-        tsneOriginal$cluster<-clusterDF[rownames(tsneOriginal),1]
+      } else {
+        if(!is.tibble(clusterDF)) clusterDF<-as_tibble(rownames_to_column(clusterDF))
+        clusterDF %<>%
+          rename("d"=!!names(.[1]),"cluster"=!!names(.[2]))
+        tsneOriginal %<>% right_join(clusterDF)
         tsnePlot<- ggplot(tsneOriginal, aes(x=tSNE1, y=tSNE2,color=cluster))
       }
       tsnePlot <- tsnePlot + geom_point(size=2)  +
