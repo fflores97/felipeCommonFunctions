@@ -28,7 +28,7 @@ tSNE_multipleParameters<-function(matrix, perplexities,thetas,iterations,cluster
         tsneOriginal %<>% right_join(clusterDF)
         tsnePlot<- ggplot(tsneOriginal, aes(x=tSNE1, y=tSNE2,color=cluster))
       }
-      tsnePlot <- tsnePlot + geom_point(size=2)  +
+      tsnePlot <- tsnePlot + geom_point(size=2) + theme_bw() +
         labs(caption=paste("perplexity = ",tsneParameters[[1]][ii],", theta =",tsneParameters[[2]][j]),sep="")
       print(tsnePlot)
     }
