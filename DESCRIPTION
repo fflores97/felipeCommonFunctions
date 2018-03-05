@@ -11,4 +11,5 @@ Depends: mixtools,
     VennDiagram,
     dplyr,
     ComplexHeatmap,
-    ggplot2
+    ggplot2,
+    RColorBrewer

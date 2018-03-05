@@ -7,7 +7,8 @@
 geneExpressionHeatmap(expressionMatrix, genesOfInterest, samples,
   annotationDataFrame, clusterColumns = T, clusterRows = T, fontSize,
   kMeans = 1, title = character(0), annotationArguments = NULL, filename,
-  ...)
+  palettes = c("Set1", "Dark2", "Set2", "Set3", "Accent", "Paired", "Pastel1",
+  "Pastel2"), ...)
 }
 \arguments{
 \item{expressionMatrix}{Matrix with genes as rows and samples as columns}

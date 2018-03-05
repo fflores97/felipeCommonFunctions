@@ -15,7 +15,8 @@
 
 geneExpressionHeatmap<- function(expressionMatrix,genesOfInterest,samples,annotationDataFrame,
                                  clusterColumns=T,clusterRows=T,fontSize,kMeans=1,
-                                 title=character(0),annotationArguments=NULL,filename,...){
+                                 title=character(0),annotationArguments=NULL,filename,palettes=c("Set1","Dark2","Set2","Set3","Accent","Paired","Pastel1","Pastel2"),
+                                   ...){
   if(missing(samples)){
     mat<-minimalSet[genesOfInterest,]
   } else{
@@ -23,14 +24,19 @@ geneExpressionHeatmap<- function(expressionMatrix,genesOfInterest,samples,annota
   }
   base_mean<-rowMeans(mat)
   mat_scaled<-t(apply(mat,1,scale))
+  if (is.tibble(annotationDataFrame)){
+    annotationDataFrame <- as.data.frame(annotationDataFrame)
+    rownames(annotationDataFrame)<- annotationDataFrame[,1]
+    annotationDataFrame[,1]<-NULL
+  } else{}
   type<- sapply(annotationDataFrame[samples,],function(x) unique(x))
   #type<-as.data.frame(type)
   #names(type)<-rownames(annotationDataFrame[samples,])
   if(class(type)=="list"){
     colors<-list()
     for(i in 1:length(type)){
-      colors[[i]]<-rainbow(length(unique(type[[i]])))
-      names(colors[[i]])<-unique(type[[i]])
+      colors[[i]]<-brewer.pal(length(type[[i]]),palettes[i])
+      names(colors[[i]])<-type[[i]]
     }
     colors<-setNames(colors,names(type))
     ha.parameters <- list(df = annotationDataFrame,col=colors)
