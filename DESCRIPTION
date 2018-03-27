@@ -7,9 +7,15 @@ Description: Bioinformatics Functions
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+License: MIT
+URL: https://github.com/fflores97/felipeCommonFunctions
+BugReports: https://github.com/fflores97/felipeCommonFunctions/issues
+Maintainer: Felipe Flores <felipeflores@college.harvard.edu>
 Depends: mixtools,
     VennDiagram,
     dplyr,
     ComplexHeatmap,
     ggplot2,
-    RColorBrewer
+    RColorBrewer,
+    tidyverse,
+    GGally
