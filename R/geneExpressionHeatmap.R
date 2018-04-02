@@ -13,56 +13,102 @@
 #' @author Felipe Flores
 #' @export
 
-geneExpressionHeatmap<- function(expressionMatrix,genesOfInterest,samples,annotationDataFrame,
-                                 clusterColumns=T,clusterRows=T,fontSize,kMeans=1,
-                                 title=character(0),annotationArguments=NULL,filename,palettes=c("Set1","Dark2","Set2","Set3","Accent","Paired","Pastel1","Pastel2"),
-                                   ...){
-  if(missing(samples)){
-    mat<-minimalSet[genesOfInterest,]
-  } else{
-    mat<-expressionMatrix[genesOfInterest,samples]
-  }
-  base_mean<-rowMeans(mat)
-  mat_scaled<-t(apply(mat,1,scale))
-  if (is.tibble(annotationDataFrame)){
-    annotationDataFrame <- as.data.frame(annotationDataFrame)
-    rownames(annotationDataFrame)<- annotationDataFrame[,1]
-    annotationDataFrame[,1]<-NULL
-  } else{}
-  type<- sapply(annotationDataFrame[samples,],function(x) unique(x))
-  #type<-as.data.frame(type)
-  #names(type)<-rownames(annotationDataFrame[samples,])
-  if(class(type)=="list"){
-    colors<-list()
-    for(i in 1:length(type)){
-      colors[[i]]<-brewer.pal(length(type[[i]]),palettes[i])
-      names(colors[[i]])<-type[[i]]
+geneExpressionHeatmap <-
+  function(expressionMatrix,
+           genesOfInterest,
+           samples,
+           annotationDataFrame,
+           clusterColumns = T,
+           clusterRows = T,
+           fontSize,
+           kMeans = 1,
+           title = character(0),
+           annotationArguments = NULL,
+           filename,
+           palettes = c("Set1",
+                        "Dark2",
+                        "Set2",
+                        "Set3",
+                        "Accent",
+                        "Paired",
+                        "Pastel1",
+                        "Pastel2"),
+           ...) {
+
+    if (missing(samples)) {
+      mat <- minimalSet[genesOfInterest, ]
+    } else{
+      mat <- expressionMatrix[genesOfInterest, samples]
     }
-    colors<-setNames(colors,names(type))
-    ha.parameters <- list(df = annotationDataFrame,col=colors)
-    ha.parameters <- c(ha.parameters,as.list(annotationArguments))
-    ha <- do.call(ComplexHeatmap::HeatmapAnnotation,ha.parameters)
-  } else {
-    colors<-rainbow(length(unique(type)))
-    names(colors)<-as.character(unique(type))
-    colnames(annotationDataFrame)="type"
-    ha.parameters <- list(df = annotationDataFrame,col=list(type=colors))
-    ha.parameters <- c(ha.parameters,as.list(annotationArguments))
-    ha <- do.call(ComplexHeatmap::HeatmapAnnotation,ha.parameters)
-  }
 
-  ht_global_opt(heatmap_row_names_gp = gpar(fontface = "italic",fontsize=fontSize))
+    base_mean <- rowMeans(mat)
 
-  hm <-Heatmap(mat_scaled, name = "expression", col = colorRamp2(c(-2, 0, 2), c("blue", "white", "red")),
-              top_annotation = ha, km=kMeans, top_annotation_height = unit(4, "mm"),
-              show_row_names = T, cluster_rows = clusterRows,show_column_names = FALSE,
-              row_names_side = 'left',show_column_dend = T,
-              cluster_columns = clusterColumns,column_title = title,...)
-  hm <- hm + Heatmap(base_mean, name = "base_mean", show_row_names = FALSE, width = unit(5, "mm"))
-  if(!missing(filename)) {
-    pdf(file = filename,width = 7,height=7)
-    print(hm)
-    dev.off()
+    mat_scaled <- t(apply(mat, 1, scale))
+
+    if (is.tibble(annotationDataFrame)) {
+      annotationDataFrame <- as.data.frame(annotationDataFrame)
+      rownames(annotationDataFrame) <- annotationDataFrame[, 1]
+      annotationDataFrame[, 1] <- NULL
+    } else{
+    }
+
+    type <- sapply(annotationDataFrame[samples, ], function(x)
+      unique(x))
+    #type<-as.data.frame(type)
+    #names(type)<-rownames(annotationDataFrame[samples,])
+    if (class(type) == "list") {
+      colors <- list()
+      for (i in 1:length(type)) {
+        colors[[i]] <- brewer.pal(length(type[[i]]), palettes[i])
+        names(colors[[i]]) <- type[[i]]
+      }
+      colors <- setNames(colors, names(type))
+      ha.parameters <- list(df = annotationDataFrame, col = colors)
+      ha.parameters <- c(ha.parameters, as.list(annotationArguments))
+      ha <- do.call(ComplexHeatmap::HeatmapAnnotation, ha.parameters)
+    } else {
+      colors <- rainbow(length(unique(type)))
+      names(colors) <- as.character(unique(type))
+      colnames(annotationDataFrame) = "type"
+      ha.parameters <-
+        list(df = annotationDataFrame, col = list(type = colors))
+      ha.parameters <- c(ha.parameters, as.list(annotationArguments))
+      ha <- do.call(ComplexHeatmap::HeatmapAnnotation, ha.parameters)
+    }
+
+    ht_global_opt(heatmap_row_names_gp = gpar(fontface = "italic", fontsize =
+                                                fontSize))
+
+    hm <-
+      Heatmap(
+        mat_scaled,
+        name = "expression",
+        col = colorRamp2(c(-2, 0, 2), c("blue", "white", "red")),
+        top_annotation = ha,
+        km = kMeans,
+        top_annotation_height = unit(4, "mm"),
+        show_row_names = T,
+        cluster_rows = clusterRows,
+        show_column_names = FALSE,
+        row_names_side = 'left',
+        show_column_dend = T,
+        cluster_columns = clusterColumns,
+        column_title = title,
+        ...
+      )
+    hm <-
+      hm + Heatmap(
+        base_mean,
+        name = "base_mean",
+        show_row_names = FALSE,
+        width = unit(5, "mm")
+      )
+    if (!missing(filename)) {
+      pdf(file = filename,
+          width = 7,
+          height = 7)
+      print(hm)
+      dev.off()
+    }
+    return(hm)
   }
-  return(hm)
-}

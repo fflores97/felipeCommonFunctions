@@ -13,6 +13,8 @@
 #'
 #' @export
 
+# TODO: Fix zero-variance behavior
+
 samplePCA <- function(
   expressionMatrix,
   numberOfPCs=2,
@@ -20,6 +22,7 @@ samplePCA <- function(
   autoClustering=FALSE,
   colorByCluster=FALSE)
 {
+  expressionMatrix <- expressionMatrix[which(apply(t(expressionMatrix), 2, var)!=0), ]
   pca <- stats::prcomp(t(expressionMatrix),center=TRUE,scale=TRUE)
 
   pcaImportanceDF <- pca %>%
@@ -92,7 +95,7 @@ samplePCA <- function(
       data=pcaDF,
       columns=1:numberOfPCs+2,
       lower=list(continuous=GGally::wrap("points",size=3)),
-      upper=NULL,
+      # upper=NULL,
       legend = c(2,1)
     )
   )
