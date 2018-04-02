@@ -13,7 +13,6 @@
 #'
 #' @export
 
-
 samplePCA <- function(
   expressionMatrix,
   numberOfPCs=2,
