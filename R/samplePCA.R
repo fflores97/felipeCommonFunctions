@@ -13,7 +13,6 @@
 #'
 #' @export
 
-# TODO: Fix zero-variance behavior
 
 samplePCA <- function(
   expressionMatrix,
@@ -22,7 +21,9 @@ samplePCA <- function(
   autoClustering=FALSE,
   colorByCluster=FALSE)
 {
-  expressionMatrix <- expressionMatrix[which(apply(t(expressionMatrix), 2, var)!=0), ]
+
+  returnList <- list()
+  expressionMatrix <- expressionMatrix[which(apply(expressionMatrix, 1, var)!=0), ]
   pca <- stats::prcomp(t(expressionMatrix),center=TRUE,scale=TRUE)
 
   pcaImportanceDF <- pca %>%
@@ -55,7 +56,11 @@ samplePCA <- function(
       k.max=min(10,nrow(t(expressionMatrix))-1)
     )
     dev.off()
+    clusteringPlot <- eclustering$clust_plot +
+      theme_bw()+
+      theme(plot.title = element_text(hjust = 0.5))
 
+    returnList <- list(clusteringPlot = clusteringPlot)
     # Join the dataframe with the clustering information as a tibble
     pcaDF <- pcaDF %>%
       dplyr::right_join(dplyr::data_frame(
@@ -93,9 +98,9 @@ samplePCA <- function(
     graphingParameters, # aes() parameters from the nested if's
     list(
       data=pcaDF,
-      columns=1:numberOfPCs+2,
+      columns=1:numberOfPCs+1,
       lower=list(continuous=GGally::wrap("points",size=3)),
-      # upper=NULL,
+      upper=NULL,
       legend = c(2,1)
     )
   )
@@ -108,16 +113,11 @@ samplePCA <- function(
     theme(plot.title=element_text(hjust=0.5))
 
   # We also customize the clustering plot from eclust a little bit:
-  clusteringPlot <- eclustering$clust_plot +
-    theme_bw()+
-    theme(plot.title = element_text(hjust = 0.5))
 
   # And return them to the user!
-  returnList<-list(
-    importancePlot=importancePlot,
-    pcaPlot=pcaPlot,
-    clusteringPlot = clusteringPlot
-  )
+  returnList <- c(returnList,
+                  list(importancePlot = importancePlot,
+                       pcaPlot = pcaPlot))
 
   return(returnList)
 
