@@ -1,15 +1,15 @@
-#
-countsData <- read.csv("~/Downloads/shNLGN4X-combined-gene-level-counts.csv",header = TRUE,row.names = 1,stringsAsFactors = F)
-countsData <- countsData[rowSums(countsData) > 10,]
-countsData <- countsData[,order(colnames(countsData))]
-# countsData <- countsData[1:200,]
-metaData<-read.csv("~/Downloads/infoTable.csv", header = TRUE,row.names = 1)
-# dds <- DESeqDataSetFromMatrix(countData = countsData,colData=metaData,design = ~ Treatment)
-# dds <- estimateSizeFactors(dds)
-# vsd <- varianceStabilizingTransformation(dds, blind=FALSE)
-# normalizedTableVSD <- assay(vsd)
-# normalizedTableVSD <- normalizedTableVSD[,sort(colnames(normalizedTableVSD))]
-# # normalizedCountsTable <- as_data_frame(counts(dds, normalized = TRUE),rownames = "Genes")
+# #
+# countsData <- read.csv("~/Downloads/shNLGN4X-combined-gene-level-counts.csv",header = TRUE,row.names = 1,stringsAsFactors = F)
+# countsData <- countsData[rowSums(countsData) > 10,]
+# countsData <- countsData[,order(colnames(countsData))]
+# # countsData <- countsData[1:200,]
+# metaData<-read.csv("~/Downloads/infoTable.csv", header = TRUE,row.names = 1)
+# # dds <- DESeqDataSetFromMatrix(countData = countsData,colData=metaData,design = ~ Treatment)
+# # dds <- estimateSizeFactors(dds)
+# # vsd <- varianceStabilizingTransformation(dds, blind=FALSE)
+# # normalizedTableVSD <- assay(vsd)
+# # normalizedTableVSD <- normalizedTableVSD[,sort(colnames(normalizedTableVSD))]
+# # # normalizedCountsTable <- as_data_frame(counts(dds, normalized = TRUE),rownames = "Genes")
 # normalizedCountsTable <- counts(dds, normalized = TRUE)
 #
 

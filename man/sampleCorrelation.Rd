@@ -2,7 +2,7 @@
 % Please edit documentation in R/sampleCorrelation.R
 \name{sampleCorrelation}
 \alias{sampleCorrelation}
-\title{Sample Correlation Map}
+\title{Sample Correlation Plot}
 \usage{
 sampleCorrelation(normalizedCountsTable)
 }
@@ -13,7 +13,7 @@ sampleCorrelation(normalizedCountsTable)
 Complex heatmap object
 }
 \description{
-Sample Correlation Map
+Function that creates a correlation plot with circles colored and sized based on correlation on the lower triangle and correlation values on the upper triangle
 }
 \examples{
 
