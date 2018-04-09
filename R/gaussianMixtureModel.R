@@ -5,7 +5,8 @@
 #' @param genesOfInterest Character vector listing the genes you're interested in looking atdep
 #' @param k Number of Gaussians to be used. This mixture model uses as many distributions as specified
 #' @author Felipe Flores
-#' @return List with posterior probabilitiy data frames
+#' @return `posteriorProbabilities` is List with posterior probabilitiy data frames'
+#' @return `plot1` or however many are needed
 #' @import dplyr
 #' @export
 
@@ -23,10 +24,11 @@ gaussianMixtureModel<-function(expressionMatrix, genesOfInterest, k){
   posteriorProbabilities<-list()
   set.seed(1)
 
+  plots <- list()
   for (i in genesOfInterest){
     mixmdl <- mixtools::normalmixEM(expressionMatrix[i,], k = k)
 
-    data.frame(x = mixmdl$x) %>%
+    plots[[i]] <- data.frame(x = mixmdl$x) %>%
       ggplot2::ggplot() +
       geom_histogram(aes(x, ..density..), binwidth = 0.3, colour = "black",
                      fill = "white") +
@@ -41,9 +43,9 @@ gaussianMixtureModel<-function(expressionMatrix, genesOfInterest, k){
       labs(title= paste(i,"Expression Distribution",sep=' ')) +
       theme_bw()
 
-    ggsave(paste('./plots/gaussian-mixture-model/Distribution_',i,'.pdf', sep=""),plot=last_plot())
+    # ggsave(paste('./plots/gaussian-mixture-model/Distribution_',i,'.pdf', sep=""),plot=last_plot())
     post.df <- as.data.frame(cbind(x = mixmdl$x, mixmdl$posterior))
     posteriorProbabilities[[i]]<-post.df
   }
-  return(posteriorProbabilities)
+  return(list(posteriorProbabilities = posteriorProbabilities, plots = plots))
 }
