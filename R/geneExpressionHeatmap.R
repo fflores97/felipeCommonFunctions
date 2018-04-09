@@ -13,6 +13,21 @@
 #' @author Felipe Flores
 #' @export
 
+#' Creating Gene Expression Heatmaps
+#'
+#' @description Beautiful heatmap creator
+#' @param expressionMatrix Matrix with genes as rows and samples as columns
+#' @param genesOfInterest Vector of genes to be put on a heatmap
+#' @param samples (optional) Indexing vector if only want to visualize a subset of samples. Can also be the sample names
+#' @param annotationDataFrame  Data frame with categories (clusters, groups, etc) that can be used to annotate a heatmap. Rows should be sample names and each column represents an annotation
+#' @param kMeans (optional) Number of k-means used to cluster rows
+#' @param fontSize Global font size
+#' @param title (optional) Heatmap Title
+#' @param annotationArgumnets (optional) List with further annotation parameters if needed
+#' @return hm, a heatmap object
+#' @author Felipe Flores
+#' @export
+
 geneExpressionHeatmap <-
   function(expressionMatrix,
            genesOfInterest,
@@ -52,14 +67,16 @@ geneExpressionHeatmap <-
     } else{
     }
 
-    type <- sapply(annotationDataFrame[samples, ], function(x)
+    type <- list()
+    type <- lapply(annotationDataFrame[samples, ], function(x)
       unique(x))
+    names(type) <- colnames(annotationDataFrame)
     #type<-as.data.frame(type)
     #names(type)<-rownames(annotationDataFrame[samples,])
     if (class(type) == "list") {
       colors <- list()
       for (i in 1:length(type)) {
-        colors[[i]] <- brewer.pal(length(type[[i]]), palettes[i])
+        colors[[i]] <- brewer.pal(length(type[[i]]), palettes[i])[1:length(type[[i]])]
         names(colors[[i]]) <- type[[i]]
       }
       colors <- setNames(colors, names(type))
@@ -112,3 +129,4 @@ geneExpressionHeatmap <-
     }
     return(hm)
   }
+
