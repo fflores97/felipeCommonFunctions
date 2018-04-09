@@ -2,11 +2,10 @@
 #'
 #' @description Gaussian Mixture Model for gene expression distributions
 #' @param expressionMatrix Numeric Matrix with genes as rows and samples as columns
-#' @param genesOfInterest Character vector listing the genes you're interested in looking atdep
+#' @param genesOfInterest Character vector listing the genes you're interested in looking at
 #' @param k Number of Gaussians to be used. This mixture model uses as many distributions as specified
 #' @author Felipe Flores
-#' @return `posteriorProbabilities` is List with posterior probabilitiy data frames'
-#' @return `plot1` or however many are needed
+#' @return `posteriorProbabilities` is list with posterior probabilitiy data frames and `plots` is list with ggplot objects
 #' @import dplyr
 #' @export
 
