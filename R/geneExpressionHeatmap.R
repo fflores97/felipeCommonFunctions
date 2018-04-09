@@ -16,7 +16,7 @@
 geneExpressionHeatmap <-
   function(expressionMatrix,
            genesOfInterest,
-           samples,
+           samples = NULL,
            annotationDataFrame,
            clusterColumns = T,
            clusterRows = T,
@@ -35,8 +35,8 @@ geneExpressionHeatmap <-
                         "Pastel2"),
            ...) {
 
-    if (missing(samples)) {
-      mat <- minimalSet[genesOfInterest, ]
+    if (is.null(samples)) {
+      mat <- expressionMatrix[genesOfInterest, ]
     } else{
       mat <- expressionMatrix[genesOfInterest, samples]
     }
