@@ -13,7 +13,7 @@
 #Fong Chun Chang's Blog https://tinyheero.github.io/2015/10/13/mixture-model.html
 
 
-gaussianMixtureModel<-function(expressionMatrix,genesOfInterest,k){
+gaussianMixtureModel<-function(expressionMatrix, genesOfInterest, k){
   plot_mix_comps <- function(x, mu, sigma, lam){
     lam * dnorm(x, mu, sigma)
   }
@@ -22,8 +22,10 @@ gaussianMixtureModel<-function(expressionMatrix,genesOfInterest,k){
   }
   posteriorProbabilities<-list()
   set.seed(1)
+
   for (i in genesOfInterest){
     mixmdl <- mixtools::normalmixEM(expressionMatrix[i,], k = k)
+
     data.frame(x = mixmdl$x) %>%
       ggplot2::ggplot() +
       geom_histogram(aes(x, ..density..), binwidth = 0.3, colour = "black",
@@ -36,7 +38,9 @@ gaussianMixtureModel<-function(expressionMatrix,genesOfInterest,k){
                     colour = "blue", lwd = 1.5) +
       ylab("Density") +
       xlab("Expression Level") +
-      labs(title= paste(i,"Expression Distribution",sep=' '))
+      labs(title= paste(i,"Expression Distribution",sep=' ')) +
+      theme_bw()
+
     ggsave(paste('./plots/gaussian-mixture-model/Distribution_',i,'.pdf', sep=""),plot=last_plot())
     post.df <- as.data.frame(cbind(x = mixmdl$x, mixmdl$posterior))
     posteriorProbabilities[[i]]<-post.df
