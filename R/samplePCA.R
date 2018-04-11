@@ -74,8 +74,8 @@ samplePCA <- function(
         Cluster=LETTERS[eclustering$cluster]
       ))
 
-    pca3dPlot %>%
-      plotly::add_trace(data = pcaDF, color = ~Cluster)
+    pca3dPlot <- pca3dPlot %>%
+      plotly::add_trace(data = pcaDF, color = ~Cluster, colors = "Paired", showlegend = FALSE)
 
     # Notice I converted the clusters to letters instead of numbers.
     # ggpairs can deal with this categorical data much better.
