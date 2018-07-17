@@ -2,6 +2,7 @@
 
 export(gaussianMixtureModel)
 export(geneExpressionHeatmap)
+export(metacore_pathway_FDR_plot)
 export(outersect)
 export(sampleCorrelation)
 export(samplePCA)
