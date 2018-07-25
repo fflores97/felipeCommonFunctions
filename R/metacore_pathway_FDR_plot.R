@@ -26,6 +26,7 @@ metacore_pathway_FDR_plot <- function(metacore_files, titles, outputnames, palet
       labs(x = "Pathway", y = "- Log10(FDR)", title = titles[i])+
       theme(
         axis.text.y = element_text(size = 20, margin = margin(l = 25)),
+        axis.text.x = element_text(size = 20),
         axis.title = element_text(size = 25),
         plot.title = element_text(size = 25, face = "bold"))
     ggsave(filename = outputnames[i], plot = plot, width = 30, height = 7, units = "in")
