@@ -6,10 +6,10 @@
 #'
 #' @return Saves plots as pdfs
 #' @export
-metacore_pathway_FDR_plot <- function(metacore_files, titles, outputnames) {
+metacore_pathway_FDR_plot <- function(metacore_files, titles, outputnames, palette) {
   for (i in 1:length(metacore_files)) {
     file <- metacore_files[i]
-    palette <- RColorBrewer::brewer.pal(n = length(metacore_files), name = "Set3")
+    # palette <- RColorBrewer::brewer.pal(n = length(metacore_files), name = "Set3")
 
     data <- readxl::read_excel(file, skip = 2) %>%
       select(Maps, FDR) %>%
